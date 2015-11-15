@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Accounts{% endblock %}
+
+{% block body %}
+  <h2>Add Account</h2>
+<form method="POST" action="{{ url_for('.index')}}">
+  {{ form.hidden_tag() }}
+{{ form.name.label }}
+{{ form.name(class_='form-control') }}
+{{ form.category.label }}
+{{ form.category(class_='form-control') }}
+<input class="btn btn-primary" type="submit" value="Add Account">
+</form>
+  <h2>Accounts</h2>
+<ul style="list-style-type:none">
+  {% for account in accounts %}
+  <li>
+    <b>{{account.name}}</b>
+      Category: {{account.category}}
+      <a href="{{ url_for('.edit', account_id=account.id) }}">Edit</a>
+      <ul style="list-style-type:none">
+        <li><b>Investments</b></li>
+          <ul style="list-style-type:none">
+            {% for inv in account.investments %}
+            <li>Investment</li>
+            {% endfor %}
+          </ul>
+      </ul>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
+
+
+
+
+

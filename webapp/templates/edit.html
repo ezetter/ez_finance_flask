@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Accounts{% endblock %}
+
+{% block body %}
+  <h2>Add Account</h2>
+<form method="POST" action="{{ url_for('.edit', account_id=account.id)}}">
+  {{ form.hidden_tag() }}
+{{ form.name.label }}
+{{ form.name(class_='form-control') }}
+{{ form.category.label }}
+{{ form.category(class_='form-control') }}
+<input class="btn btn-primary" type="submit" value="Update Account">
+</form>
+{% endblock %}

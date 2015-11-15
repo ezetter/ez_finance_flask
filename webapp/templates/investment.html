@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Add Investment{% endblock %}
+
+{% block body %}
+  <h2>Add Investment</h2>
+<form method="POST" action="{{ url_for('.add_investment', account_id=account.id)}}">
+  {{ form.hidden_tag() }}
+{{ form.name.label }}
+{{ form.name(class_='form-control') }}
+{{ form.symbol.label }}
+{{ form.symbol(class_='form-control') }}
+{{ form.shares.label }}
+{{ form.shares(class_='form-control') }}
+<input class="btn btn-primary" type="submit" value="Add Investment">
+</form>
+{% endblock %}
