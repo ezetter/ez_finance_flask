@@ -38,13 +38,31 @@ def edit(account_id):
     return render_template("edit.html", account=account, form=form)
 
 
-@main_blueprint.route("/investment/<int:account_id>", methods=['POST'])
+@main_blueprint.route("/add-investment/<int:account_id>", methods=['GET', 'POST'])
 def add_investment(account_id):
     form = InvestmentForm()
     account = Account.query.get(account_id)
     if form.validate_on_submit():
-        inv = Investment(name=form.name, symbol=form.symbol, shares=form.shares, account=account)
+        inv = Investment(name=form.name.data, symbol=form.symbol.data,
+                         shares=form.shares.data, price = form.price.data,
+                         account=account)
         db.session.add(inv)
         db.session.commit()
         return redirect(url_for('.index'))
-    return render_template("investment.html", account=account, form=form)
+    return render_template("add_investment.html", account=account, form=form)
+
+
+@main_blueprint.route("/edit-investment/<int:investment_id>", methods=['GET', 'POST'])
+def edit_investment(investment_id):
+    inv = Investment.query.get(investment_id)
+    form = InvestmentForm(obj=inv)
+    print(inv)
+    if form.validate_on_submit():
+        inv.name = form.name.data
+        inv.symbol = form.symbol.data
+        inv.shares = form.shares.data
+        inv.price = form.price.data
+        db.session.add(inv)
+        db.session.commit()
+        return redirect(url_for('.index'))
+    return render_template("edit_investment.html", investment=inv, form=form)

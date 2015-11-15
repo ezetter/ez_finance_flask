@@ -9,11 +9,8 @@ class AccountForm(Form):
     submit = SubmitField('Submit')
 
 
-def AvailableAccounts():
-    pass
-
-
 class InvestmentForm(Form):
     name = StringField('Investment Name ', validators=[DataRequired()])
     symbol = StringField('Symbol ')
     shares = DecimalField('Number of Shares', places=3)
+    price = DecimalField('Price per Share', places=3)
