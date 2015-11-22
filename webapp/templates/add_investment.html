@@ -4,6 +4,7 @@
 
 {% block body %}
   <h2>Add Investment</h2>
+<h4>Account: {{account.name}}</h4>
 <form method="POST" action="{{ url_for('.add_investment', account_id=account.id)}}">
   {{ form.hidden_tag() }}
 {{ form.name.label }}

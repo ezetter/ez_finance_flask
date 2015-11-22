@@ -1,19 +1,17 @@
 {% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}Edit Investment{% endblock %}
 
 {% block body %}
   <h2>Edit Investment</h2>
+<h4>Account: {{investment.account.name}}</h4>
 <form method="POST" action="{{ url_for('.edit_investment', investment_id=investment.id)}}">
   {{ form.hidden_tag() }}
-{{ form.name.label }}
-{{ form.name(class_='form-control') }}
-{{ form.symbol.label }}
-{{ form.symbol(class_='form-control') }}
-{{ form.shares.label }}
-{{ form.shares(class_='form-control') }}
-{{ form.price.label }}
-{{ form.price(class_='form-control') }}
-<input class="btn btn-primary" type="submit" value="Edit Investment">
+  {{ render_field(form.name) }}
+  {{ render_field(form.symbol) }}
+  {{ render_field(form.shares) }}
+  {{ render_field(form.price) }}
+<input class="btn btn-primary" type="submit" value="Save Investment">
 </form>
 {% endblock %}

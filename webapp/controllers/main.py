@@ -1,7 +1,8 @@
 from flask import Blueprint, redirect, url_for, render_template, request
 from webapp.models import db, Account, Investment
 from webapp.forms import AccountForm, InvestmentForm
-from webapp.lib.stock_util import update_account_prices
+from webapp.lib.stock_util import update_account_prices, get_current_price
+from IPython import embed
 
 main_blueprint = Blueprint(
     'main',
@@ -53,6 +54,8 @@ def add_investment(account_id):
     form = InvestmentForm()
     account = Account.query.get(account_id)
     if form.validate_on_submit():
+        if not form.price.data and form.symbol.data:
+            form.price.data = get_current_price(form.symbol.data)
         inv = Investment(name=form.name.data, symbol=form.symbol.data,
                          shares=form.shares.data, price = form.price.data,
                          account=account)
@@ -64,15 +67,16 @@ def add_investment(account_id):
 
 @main_blueprint.route("/edit-investment/<int:investment_id>", methods=['GET', 'POST'])
 def edit_investment(investment_id):
-    inv = Investment.query.get(investment_id)
-    form = InvestmentForm(obj=inv)
-    print(inv)
+    investment = Investment.query.get(investment_id)
+    form = InvestmentForm(obj=investment)
+    if not form.price.data and form.symbol.data:
+        form.price.data = get_current_price(form.symbol.data)
     if form.validate_on_submit():
-        inv.name = form.name.data
-        inv.symbol = form.symbol.data
-        inv.shares = form.shares.data
-        inv.price = form.price.data
-        db.session.add(inv)
+        investment.name = form.name.data
+        investment.symbol = form.symbol.data
+        investment.shares = form.shares.data
+        investment.price = form.price.data
+        db.session.add(investment)
         db.session.commit()
         return redirect(url_for('.index'))
-    return render_template("edit_investment.html", investment=inv, form=form)
+    return render_template("edit_investment.html", investment=investment, form=form)
