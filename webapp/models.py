@@ -1,4 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+import locale
 
 db = SQLAlchemy()
 
@@ -13,7 +14,7 @@ class Account(db.Model):
     def value(self):
         val = sum(inv.shares * inv.price for inv in self.investments
                    if inv.shares and inv.price)
-        return "{:.2f}".format(val)
+        return locale.currency(val, grouping=True)
 
     def __repr__(self):
         return '<Account: %r, %r>' % (self.name, self.category)
@@ -30,7 +31,10 @@ class Investment(db.Model):
 
     def value(self):
         if self.shares and self.price:
-            return "{:.2f}".format(self.shares * self.price)
+            return locale.currency(self.shares * self.price, grouping=True)
+
+    def formatted_price(self):
+        return "{:.2f}".format(self.price)
 
     def __repr__(self):
         return '<Investment: %r>' % self.name

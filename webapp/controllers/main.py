@@ -2,7 +2,10 @@ from flask import Blueprint, redirect, url_for, render_template, request
 from webapp.models import db, Account, Investment
 from webapp.forms import AccountForm, InvestmentForm
 from webapp.lib.stock_util import update_account_prices, get_current_price
+import locale
 from IPython import embed
+
+locale.setlocale(locale.LC_ALL, '')
 
 main_blueprint = Blueprint(
     'main',
@@ -16,8 +19,8 @@ def index():
     accounts = Account.query.all()
     if request.args.get('current'):
         update_account_prices(accounts)
-    total = round(sum(inv.price * inv.shares for account in accounts
-                      for inv in account.investments if inv.price), 2)
+    total = locale.currency(sum(inv.price * inv.shares for account in accounts
+                      for inv in account.investments if inv.price), grouping=True)
     return render_template("index.html", accounts=accounts, total=total)
 
 
@@ -57,7 +60,7 @@ def add_investment(account_id):
         if not form.price.data and form.symbol.data:
             form.price.data = get_current_price(form.symbol.data)
         inv = Investment(name=form.name.data, symbol=form.symbol.data,
-                         shares=form.shares.data, price = form.price.data,
+                         shares=form.shares.data, price=form.price.data,
                          account=account)
         db.session.add(inv)
         db.session.commit()

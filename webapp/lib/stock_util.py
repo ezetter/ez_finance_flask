@@ -12,7 +12,7 @@ def update_account_prices(accounts):
 def get_current_price(ticker):
     end = datetime.date.today()
     start = end - datetime.timedelta(days=7)
-    return get_stock_data(ticker, start, end).ix[-1]['Close']
+    return round(get_stock_data(ticker, start, end).ix[-1]['Close'], 3)
 
 
 def get_stock_data(ticker, start, end):
