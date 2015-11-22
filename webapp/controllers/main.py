@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, url_for, render_template
 from webapp.models import db, Account, Investment
 from webapp.forms import AccountForm, InvestmentForm
+from webapp.lib.stock_util import get_current_price
 
 main_blueprint = Blueprint(
     'main',
@@ -50,6 +51,17 @@ def add_investment(account_id):
         db.session.commit()
         return redirect(url_for('.index'))
     return render_template("add_investment.html", account=account, form=form)
+
+
+@main_blueprint.route("/current", methods=['GET', 'POST'])
+def get_current():
+    form = AccountForm()
+    accounts = Account.query.all()
+    for account in accounts:
+        for investment in account.investments:
+            price = get_current_price(investment.symbol)['Close']
+            investment.price = round(price, 2)
+    return render_template("index.html", accounts=accounts, form=form)
 
 
 @main_blueprint.route("/edit-investment/<int:investment_id>", methods=['GET', 'POST'])
