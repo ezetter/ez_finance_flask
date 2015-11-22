@@ -3,17 +3,9 @@
 {% block title %}Accounts{% endblock %}
 
 {% block body %}
-<h2>Add Account</h2>
-<form method="POST" action="{{ url_for('.index')}}">
-    {{ form.hidden_tag() }}
-    {{ form.name.label }}
-    {{ form.name(class_='form-control') }}
-    {{ form.category.label }}
-    {{ form.category(class_='form-control') }}
-    <input class="btn btn-primary" type="submit" value="Add Account">
-</form>
+    <h4><a href="{{ url_for('.index', current='get') }}">Get Current Prices</a>
+    | <a href="{{ url_for('.add_account') }}">Create Account</a></h4>
 <h2>Accounts</h2>
-    <h4><a href="{{ url_for('.index', current='get') }}">Get Current</a></h4>
 <ul style="list-style-type:none">
     {% for account in accounts %}
     <li>

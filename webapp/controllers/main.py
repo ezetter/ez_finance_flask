@@ -10,23 +10,14 @@ main_blueprint = Blueprint(
 )
 
 
-@main_blueprint.route("/", methods=['GET', 'POST'])
+@main_blueprint.route("/", methods=['GET'])
 def index():
     accounts = Account.query.all()
     if request.args.get('current'):
         update_account_prices(accounts)
     total = round(sum(inv.price * inv.shares for account in accounts
                       for inv in account.investments if inv.price), 2)
-    form = AccountForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        category = form.category.data
-        form.name.data = ''
-        act = Account(name=name, category=category)
-        db.session.add(act)
-        db.session.commit()
-        return redirect(url_for('.index'))
-    return render_template("index.html", accounts=accounts, form=form, total=total)
+    return render_template("index.html", accounts=accounts, total=total)
 
 
 @main_blueprint.route("/edit/<int:account_id>", methods=['GET', 'POST'])
@@ -41,6 +32,20 @@ def edit(account_id):
         db.session.commit()
         return redirect(url_for('.index'))
     return render_template("edit.html", account=account, form=form)
+
+
+@main_blueprint.route("/add_account", methods=['GET', 'POST'])
+def add_account():
+    form = AccountForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        category = form.category.data
+        form.name.data = ''
+        act = Account(name=name, category=category)
+        db.session.add(act)
+        db.session.commit()
+        return redirect(url_for('.index'))
+    return render_template("add_account.html", form=form)
 
 
 @main_blueprint.route("/add-investment/<int:account_id>", methods=['GET', 'POST'])
