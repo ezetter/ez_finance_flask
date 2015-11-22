@@ -13,7 +13,7 @@
     <input class="btn btn-primary" type="submit" value="Add Account">
 </form>
 <h2>Accounts</h2>
-    <h4><a href="{{ url_for('.get_current') }}">Get Current</a></h4>
+    <h4><a href="{{ url_for('.index', current='get') }}">Get Current</a></h4>
 <ul style="list-style-type:none">
     {% for account in accounts %}
     <li>
@@ -30,10 +30,12 @@
                 {% endfor %}
             </ul>
         </ul>
-        <b>Total Value: </b>{{account.value()}}
+        <b>Total Account Value: </b>{{account.value()}}
     </li>
     {% endfor %}
+
 </ul>
+<b>Total Value All Accounts: </b>{{total}}
 {% endblock %}
 
 
