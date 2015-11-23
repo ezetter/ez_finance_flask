@@ -1,4 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import UniqueConstraint
 import locale
 
 db = SQLAlchemy()
@@ -21,13 +22,14 @@ class Account(db.Model):
 
 
 class Investment(db.Model):
-    __tablename__ = 'investment'
+    __tablename__ = 'investments'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    symbol = db.Column(db.String(64), unique=True)
+    name = db.Column(db.String(64))
+    symbol = db.Column(db.String(64))
     shares = db.Column(db.Float)
     price = db.Column(db.Float)
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    UniqueConstraint('symbol', 'account_id')
 
     def value(self):
         if self.shares and self.price:
