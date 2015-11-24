@@ -2,11 +2,13 @@ import pandas.io.data as web
 import datetime
 
 
-def update_account_prices(accounts):
+def update_account_prices(accounts, db):
     for account in accounts:
         for investment in account.investments:
             price = get_current_price(investment.symbol)
             investment.price = round(price, 2)
+            db.session.add(investment)
+            db.session.commit()
 
 
 def get_current_price(ticker):

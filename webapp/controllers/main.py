@@ -18,7 +18,7 @@ main_blueprint = Blueprint(
 def index():
     accounts = Account.query.all()
     if request.args.get('current'):
-        update_account_prices(accounts)
+        update_account_prices(accounts, db)
     total = locale.currency(sum(inv.price * inv.shares for account in accounts
                       for inv in account.investments if inv.price), grouping=True)
     return render_template("index.html", accounts=accounts, total=total)
