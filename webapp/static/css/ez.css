@@ -9,7 +9,7 @@ hr.ez {
     padding: 3px 6px;
 }
 
-a:link, a:visited {
+a:link.btn, a:visited.btn {
     color: white;
 }
 
