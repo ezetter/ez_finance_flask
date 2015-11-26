@@ -6,34 +6,53 @@
 <h4><a href="{{ url_for('.index', current='get') }}">Get Current Prices</a>
     | <a href="{{ url_for('.add_account') }}">Create Account</a></h4>
 <hr class="ez">
-<ul style="list-style-type:none">
-    <li>
-        <h4><b>Total Value All Accounts</b>: {{total}}</h4>
-    </li>
-</ul>
-<h2>Accounts</h2>
-<ul style="list-style-type:none">
-    {% for account in accounts %}
-    <li>
-        <b>{{account.name}}</b>
-        Category: {{account.category}}
-        <a href="{{ url_for('.edit', account_id=account.id) }}">Edit</a>
-        <ul style="list-style-type:none">
-            <li><b>Investments</b> <a href="{{ url_for('.add_investment', account_id=account.id) }}">Add</a></li>
-            <ul style="list-style-type:none">
-                {% for inv in account.investments %}
-                <li>{{inv.symbol}} Shares: {{inv.shares}}, Price: {{inv.formatted_price()}}, Value: {{inv.value()}}
-                    <a href="{{ url_for('.edit_investment', investment_id=inv.id) }}">Edit</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </ul>
-        <b>Total Account Value: </b>{{account.value()}}
-    </li>
-    {% endfor %}
+<div class="panel panel-default">
+    <h4><b>Total Value All Accounts</b>: {{total}}</h4>
+</div>
+<div class="panel-group">
 
-</ul>
+    <button type="button" class="btn btn-primary btn-ez collapsed" data-toggle="collapse" data-target="#accounts">
+        Accounts
+    </button>
+    <div id="accounts" class="collapse">
+        <ul class="list-group">
+            {% for account in accounts %}
+            <li class="list-group-item">
+                <h4 class="panel-title">
+                    {{account.name}}
+                    <button type="button" class="btn btn-primary btn-ez collapsed" data-toggle="collapse"
+                            data-target="#collapse{{account.id}}">Investments
+                    </button>
+                </h4>
+
+                <div id="collapse{{account.id}}" class="panel-collapse collapse">
+
+                    Category: {{account.category}}
+                    <a href="{{ url_for('.edit', account_id=account.id) }}">Edit</a>
+                    <ul style="list-style-type:none">
+                        <li><b>Investments</b> <a
+                                href="{{ url_for('.add_investment', account_id=account.id) }}">Add</a>
+                        </li>
+                        <ul style="list-style-type:none">
+                            {% for inv in account.investments %}
+                            <li>{{inv.symbol}} Shares: {{inv.shares}}, Price: {{inv.formatted_price()}}, Value:
+                                {{inv.value()}}
+                                <a href="{{ url_for('.edit_investment', investment_id=inv.id) }}">Edit</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </ul>
+                    <b>Total Account Value: </b>{{account.value()}}
+                </div>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+
+</div>
 {% endblock %}
+
 
 
 
