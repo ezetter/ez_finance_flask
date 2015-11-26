@@ -11,24 +11,24 @@
 </div>
 <div class="panel-group">
 
-    <button type="button" class="btn btn-primary btn-ez collapsed" data-toggle="collapse" data-target="#accounts">
+    <button type="button" class="btn btnc btn-primary btn-ez collapsed" data-toggle="collapse" data-target="#accounts">
         Accounts
     </button>
-    <div id="accounts" class="collapse">
+    <div id="accounts" class="collapse in">
         <ul class="list-group">
             {% for account in accounts %}
             <li class="list-group-item">
                 <h4 class="panel-title">
-                    {{account.name}}
-                    <button type="button" class="btn btn-primary btn-ez collapsed" data-toggle="collapse"
+                    {{account.name}} ({{account.category}})
+                    <a class="btn btn-primary btn-ez" href="{{ url_for('.edit', account_id=account.id) }}">Edit</a>
+                    <button type="button" class="btn btnc btn-primary btn-ez collapsed" data-toggle="collapse"
                             data-target="#collapse{{account.id}}">Investments
                     </button>
                 </h4>
 
                 <div id="collapse{{account.id}}" class="panel-collapse collapse">
 
-                    Category: {{account.category}}
-                    <a href="{{ url_for('.edit', account_id=account.id) }}">Edit</a>
+
                     <ul style="list-style-type:none">
                         <li><b>Investments</b> <a
                                 href="{{ url_for('.add_investment', account_id=account.id) }}">Add</a>
