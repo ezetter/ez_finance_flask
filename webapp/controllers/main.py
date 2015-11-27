@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, request
 from webapp.models import db, Account, Investment
 from webapp.forms import AccountForm, InvestmentForm
 from webapp.lib.stock_util import update_account_prices, get_current_price
-from webapp.lib.queries import account_type_sums, all_accounts_sum
+from webapp.lib.queries import account_by_type_sums, all_accounts_sum, account_by_owner_sums
 import locale
 from IPython import embed
 
@@ -21,7 +21,8 @@ def index():
     if request.args.get('current'):
         update_account_prices(accounts, db)
     return render_template("index.html", accounts=accounts, total=all_accounts_sum(db),
-                           account_type_sums=account_type_sums(db))
+                           account_type_sums=account_by_type_sums(db),
+                           account_owner_sums=account_by_owner_sums(db))
 
 
 @main_blueprint.route("/edit/<int:account_id>", methods=['GET', 'POST'])
@@ -31,6 +32,7 @@ def edit(account_id):
     if form.validate_on_submit():
         account.name = form.name.data
         account.category = form.category.data
+        account.owner = form.owner.data
         form.name.data = ''
         db.session.add(account)
         db.session.commit()
@@ -44,6 +46,7 @@ def add_account():
     if form.validate_on_submit():
         name = form.name.data
         category = form.category.data
+        owner = form.owner.data
         form.name.data = ''
         act = Account(name=name, category=category)
         db.session.add(act)

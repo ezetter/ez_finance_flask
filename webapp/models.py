@@ -8,8 +8,9 @@ db = SQLAlchemy()
 class Account(db.Model):
     __tablename__ = 'accounts'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
+    name = db.Column(db.String(64))
     category = db.Column(db.String(64))
+    owner = db.Column(db.String(64))
     investments = db.relationship('Investment', backref='account')
 
     def value(self):

@@ -6,6 +6,7 @@ from wtforms.validators import DataRequired, Optional
 class AccountForm(Form):
     name = StringField('Account Name ', validators=[DataRequired()])
     category = StringField('Account Category ')
+    owner = StringField('Account Owner ')
     submit = SubmitField('Submit')
 
 
