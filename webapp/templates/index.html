@@ -32,7 +32,7 @@
             {% for account in accounts %}
             <li class="list-group-item">
                 <h4 class="panel-title">
-                    {{account.name}} ({{account.category}})
+                    {{account.name}} ({{account.category}}) {{account.value()}}
                     <a class="btn btn-primary btn-ez" href="{{ url_for('.edit', account_id=account.id) }}">Edit</a>
                     <button type="button" class="btn btnc btn-primary btn-ez collapsed" data-toggle="collapse"
                             data-target="#collapse{{account.id}}">Investments
@@ -55,7 +55,6 @@
                             {% endfor %}
                         </ul>
                     </ul>
-                    <b>Total Account Value: </b>{{account.value()}}
                 </div>
             </li>
             {% endfor %}
