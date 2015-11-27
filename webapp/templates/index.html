@@ -48,7 +48,7 @@
                         </li>
                         <ul style="list-style-type:none">
                             {% for inv in account.investments %}
-                            <li>{{inv.symbol}} Shares: {{inv.shares}}, Price: {{inv.formatted_price()}}, Value:
+                            <li>{{inv.symbol}} ({{inv.name}}) Shares: {{inv.shares}}, Price: {{inv.formatted_price()}}, Value:
                                 {{inv.value()}}
                                 <a href="{{ url_for('.edit_investment', investment_id=inv.id) }}">Edit</a>
                             </li>
