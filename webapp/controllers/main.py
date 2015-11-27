@@ -2,6 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, request
 from webapp.models import db, Account, Investment
 from webapp.forms import AccountForm, InvestmentForm
 from webapp.lib.stock_util import update_account_prices, get_current_price
+from webapp.lib.queries import account_type_sums, all_accounts_sum
 import locale
 from IPython import embed
 
@@ -19,9 +20,8 @@ def index():
     accounts = Account.query.all()
     if request.args.get('current'):
         update_account_prices(accounts, db)
-    total = locale.currency(sum(inv.price * inv.shares for account in accounts
-                      for inv in account.investments if inv.price), grouping=True)
-    return render_template("index.html", accounts=accounts, total=total)
+    return render_template("index.html", accounts=accounts, total=all_accounts_sum(db),
+                           account_type_sums=account_type_sums(db))
 
 
 @main_blueprint.route("/edit/<int:account_id>", methods=['GET', 'POST'])

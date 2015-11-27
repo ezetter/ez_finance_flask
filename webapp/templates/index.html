@@ -6,12 +6,25 @@
 <h4><a href="{{ url_for('.index', current='get') }}">Get Current Prices</a>
     | <a href="{{ url_for('.add_account') }}">Create Account</a></h4>
 <hr class="ez">
-<div class="panel panel-default">
-    <h4><b>Total Value All Accounts</b>: {{total}}</h4>
+<div class="panel-group">
+    <h4 class="panel-title"><b>Total Value All Accounts</b>: {{total}}
+    <button type="button" class="btn btnc btn-primary btn-ez" data-toggle="collapse"
+            data-target="#collapse_totals">Sub-Totals
+    </button>
+    </h4>
+    <div id="collapse_totals" class="panel-collapse collapse in">
+        <ul class="list-group">
+            {% for subtotal in account_type_sums %}
+            <li class="list-group-item">
+                {{subtotal[1]}}: {{subtotal[0]}}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 <div class="panel-group">
 
-    <button type="button" class="btn btnc btn-primary btn-ez collapsed" data-toggle="collapse" data-target="#accounts">
+    <button type="button" class="btn btnc btn-primary btn-ez" data-toggle="collapse" data-target="#accounts">
         Accounts
     </button>
     <div id="accounts" class="collapse in">
