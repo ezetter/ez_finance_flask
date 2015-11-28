@@ -2,6 +2,7 @@ from flask import Flask
 
 from webapp.models import db
 from webapp.controllers.main import main_blueprint
+from webapp.controllers.charts import chart_blueprint
 
 
 def create_app(object_name):
@@ -20,6 +21,7 @@ def create_app(object_name):
     db.init_app(app)
 
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(chart_blueprint)
 
     return app
 

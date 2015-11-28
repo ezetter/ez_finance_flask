@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Add Investment{% endblock %}
+{% block title %}Add Account{% endblock %}
 
 {% block body %}
-  <h2>Add Investment</h2>
+  <h2>Add Account</h2>
 
 <form method="POST" action="{{ url_for('.add_account')}}">
     {{ form.hidden_tag() }}

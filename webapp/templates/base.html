@@ -10,7 +10,12 @@
 </head>
 <body>
 <div class="container">
-
+<h4>
+    <a href="{{ url_for('main.index') }}">Home</a>
+    | <a href="{{ url_for('main.index', current='get') }}">Get Current Prices</a>
+    | <a href="{{ url_for('main.add_account') }}">Create Account</a>
+    | <a href="{{ url_for('chart.charts') }}">Charts</a>
+</h4>
     {% block body %}
 
     {% endblock %}
