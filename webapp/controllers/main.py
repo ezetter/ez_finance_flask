@@ -48,7 +48,7 @@ def add_account():
         category = form.category.data
         owner = form.owner.data
         form.name.data = ''
-        act = Account(name=name, category=category)
+        act = Account(name=name, category=category, owner=owner)
         db.session.add(act)
         db.session.commit()
         return redirect(url_for('.index'))
@@ -86,3 +86,4 @@ def edit_investment(investment_id):
         db.session.commit()
         return redirect(url_for('.index'))
     return render_template("edit_investment.html", investment=investment, form=form)
+
