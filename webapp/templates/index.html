@@ -15,12 +15,12 @@
         <ul class="list-group">
             {% for subtotal in account_type_sums %}
             <li class="list-group-item">
-                Type: {{subtotal[1]}}: {{subtotal[0]}}
+                <h5>Type: {{subtotal[1]}}: {{subtotal[0]}} ({{subtotal[2]}}%)</h5>
             </li>
             {% endfor %}
             {% for subtotal in account_owner_sums %}
             <li class="list-group-item">
-                Owner: {{subtotal[1]}}: {{subtotal[0]}}
+                <h5>Owner: {{subtotal[1]}}: {{subtotal[0]}} ({{subtotal[2]}}%)</h5>
             </li>
             {% endfor %}
         </ul>

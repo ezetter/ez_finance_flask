@@ -3,7 +3,8 @@ import locale
 
 
 def format_sums(totals):
-    return [(locale.currency(tot[0], grouping=True), tot[1]) for tot in totals]
+    all_total = sum(tot[0] for tot in totals)
+    return [(locale.currency(tot[0], grouping=True), tot[1], round(tot[0]*100/all_total, 1)) for tot in totals]
 
 
 def account_by_type_sums(db):
