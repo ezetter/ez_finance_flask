@@ -5,7 +5,7 @@ from flask.ext.script.commands import ShowUrls
 from flask.ext.migrate import Migrate, MigrateCommand
 
 from webapp import create_app
-from webapp.models import db, Account, Investment
+from webapp.models import db, Account, Investment, AccountHistory
 
 # default to dev config
 env = os.environ.get('WEBAPP_ENV', 'dev')
@@ -25,7 +25,8 @@ def make_shell_context():
         app=app,
         db=db,
         Account=Account,
-        Investment=Investment
+        Investment=Investment,
+        AccountHistory=AccountHistory
     )
 
 if __name__ == "__main__":

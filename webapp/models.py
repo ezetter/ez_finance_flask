@@ -12,6 +12,7 @@ class Account(db.Model):
     category = db.Column(db.String(64))
     owner = db.Column(db.String(64))
     investments = db.relationship('Investment', backref='account')
+    history = db.relationship('AccountHistory', backref='account')
 
     def value(self):
         val = sum(inv.shares * inv.price for inv in self.investments
@@ -42,3 +43,10 @@ class Investment(db.Model):
     def __repr__(self):
         return '<Investment: %r>' % self.name
 
+
+class AccountHistory(db.Model):
+    __tablename__ = 'account_history'
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.Float)
+    snapshot_date = db.Column(db.Date)
+    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
