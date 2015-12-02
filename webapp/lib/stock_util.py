@@ -9,7 +9,7 @@ def update_account_prices(accounts, db):
         account_total_val = 0
         for investment in account.investments:
             price = get_current_price(investment.symbol)
-            account_total_val += price
+            account_total_val += price * investment.shares
             investment.price = round(price, 2)
             db.session.add(investment)
             db.session.commit()

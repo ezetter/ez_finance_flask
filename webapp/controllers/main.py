@@ -2,7 +2,8 @@ from flask import Blueprint, redirect, url_for, render_template, request
 from webapp.models import db, Account, Investment
 from webapp.forms import AccountForm, InvestmentForm
 from webapp.lib.stock_util import update_account_prices, get_current_price
-from webapp.lib.queries import account_by_type_sums, all_accounts_sum, account_by_owner_sums, format_sums
+from webapp.lib.queries import account_by_type_sums, all_accounts_sum, account_by_owner_sums, \
+    format_sums, daily_historical_sum
 import locale
 
 locale.setlocale(locale.LC_ALL, '')
@@ -19,9 +20,9 @@ def index():
     accounts = Account.query.all()
     if request.args.get('current'):
         update_account_prices(accounts, db)
-    return render_template("index.html", accounts=accounts, total=all_accounts_sum(db),
-                           account_type_sums=format_sums(account_by_type_sums(db)),
-                           account_owner_sums=format_sums(account_by_owner_sums(db)))
+    return render_template("index.html", accounts=accounts, total=all_accounts_sum(),
+                           account_type_sums=format_sums(account_by_type_sums()),
+                           account_owner_sums=format_sums(account_by_owner_sums()))
 
 
 @main_blueprint.route("/edit/<int:account_id>", methods=['GET', 'POST'])
@@ -86,3 +87,7 @@ def edit_investment(investment_id):
         return redirect(url_for('.index'))
     return render_template("edit_investment.html", investment=investment, form=form)
 
+
+@main_blueprint.route("/history", methods=['GET'])
+def view_history():
+    return render_template("history.html", history=format_sums(daily_historical_sum()))

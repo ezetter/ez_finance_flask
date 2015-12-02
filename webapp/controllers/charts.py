@@ -20,13 +20,13 @@ def category_bar_charts():
     sns.set(style="whitegrid")
     sns.set_context("notebook", font_scale=1.5, rc={"lines.linewidth": 2.5})
     f, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 6), sharex=False)
-    account_type_sums = sorted(account_by_type_sums(db), reverse=True)
+    account_type_sums = sorted(account_by_type_sums(), reverse=True)
     x = [a[1] for a in account_type_sums]
     y = [a[0] for a in account_type_sums]
     sns.barplot(x, y, palette="BuGn_d", ax=ax1)
     ax1.set_ylabel("By Category")
 
-    account_owner_sums = sorted(account_by_owner_sums(db), reverse=True)
+    account_owner_sums = sorted(account_by_owner_sums(), reverse=True)
     x = [a[1] for a in account_owner_sums]
     y = [a[0] for a in account_owner_sums]
     sns.barplot(x, y, palette="Blues_d", ax=ax2)
