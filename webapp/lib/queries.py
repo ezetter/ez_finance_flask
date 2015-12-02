@@ -31,4 +31,5 @@ def all_accounts_sum():
 def daily_historical_sum():
     return db.session.query(
         db.func.sum(AccountHistory.value), AccountHistory.snapshot_date
-    ).group_by(AccountHistory.snapshot_date).all()
+    ).group_by(AccountHistory.snapshot_date) \
+        .order_by(AccountHistory.snapshot_date.desc()).all()
