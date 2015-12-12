@@ -5,36 +5,58 @@
 {% block body %}
 
 <div class="panel-group">
-    <h4 class="panel-title"><b>Total Value All Accounts</b>: {{total}}
+    <h3>Total Value All Accounts: {{total}}
         <button type="button" class="btn btnc btn-primary btn-ez" data-toggle="collapse"
                 data-target="#collapse_totals">Sub-Totals
         </button>
-    </h4>
+    </h3>
     <div id="collapse_totals" class="panel-collapse collapse in">
         <ul class="list-group">
-            {% for subtotal in retirement_class_sums %}
-            <li class="list-group-item">
-                <h5>{{subtotal[1]}}: {{subtotal[0]}} ({{subtotal[2]}}%)</h5>
-            </li>
-            {% endfor %}
-            {% for subtotal in account_type_sums %}
-            <li class="list-group-item">
-                <h5>Type: {{subtotal[1]}}: {{subtotal[0]}} ({{subtotal[2]}}%)</h5>
-            </li>
-            {% endfor %}
-            {% for subtotal in account_owner_sums %}
-            <li class="list-group-item">
-                <h5>Owner: {{subtotal[1]}}: {{subtotal[0]}} ({{subtotal[2]}}%)</h5>
-            </li>
-            {% endfor %}
+            <div style="padding-bottom: 5px;">
+                <button type="button" class="btn btnc btn-primary btn-ez collapsed" data-toggle="collapse"
+                        data-target="#collapsret">By Retirement Class
+                </button>
+            </div>
+            <div id="collapsret" class="panel-collapse collapse">
+                {% for retirement_subtotal in retirement_class_sums %}
+                <li class="list-group-item">
+                    <h4>{{retirement_subtotal[1]}}: {{retirement_subtotal[0]}} ({{retirement_subtotal[2]}}%)
+                        <button type="button" class="btn btnc btn-primary btn-ez collapsed" data-toggle="collapse"
+                                data-target="#collapse{{retirement_subtotal[1]}}">Categories
+                        </button>
+                    </h4>
+                    <div id="collapse{{retirement_subtotal[1]}}" class="panel-collapse collapse">
+                        <ul style="list-style-type:none">
+                            {% for type_subtotal in account_type_sums[retirement_subtotal[1]] %}
+                            <li>
+                                <h4>Type: {{type_subtotal[1]}}: {{type_subtotal[0]}} ({{type_subtotal[2]}}%)</h4>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+                {% endfor %}
+            </div>
+            <div>
+                <button type="button" class="btn btnc btn-primary btn-ez collapsed" data-toggle="collapse"
+                        data-target="#collapseowners">By Owner
+                </button>
+            </div>
+            <div id="collapseowners" class="panel-collapse collapse">
+
+                {% for subtotal in account_owner_sums %}
+                <li class="list-group-item">
+                    <h4>Owner: {{subtotal[1]}}: {{subtotal[0]}} ({{subtotal[2]}}%)</h4>
+                </li>
+                {% endfor %}
+            </div>
         </ul>
     </div>
 </div>
-<div class="panel-group">
 
-    <button type="button" class="btn btnc btn-primary btn-ez" data-toggle="collapse" data-target="#accounts">
-        Accounts
-    </button>
+<div class="panel-group">
+    <h3>Accounts</h3>
+
     <div id="accounts" class="collapse in">
         <ul class="list-group">
             {% for account in accounts %}

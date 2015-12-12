@@ -7,6 +7,19 @@ def format_sums(totals):
     return [(locale.currency(tot[0], grouping=True), tot[1], round(tot[0] * 100 / all_total, 1)) for tot in totals]
 
 
+def account_by_retirement_sub_type():
+    totals = {}
+    totals['Retirement'] = format_sums(db.session.query(
+        db.func.sum(Investment.price * Investment.shares), Account.category
+    ).join(Account.investments).filter(Account.retirement == 1)
+                                       .group_by(Account.category).all())
+    totals['Non-Retirement'] = format_sums(db.session.query(
+        db.func.sum(Investment.price * Investment.shares), Account.category
+    ).join(Account.investments).filter(Account.retirement == 0)
+                                       .group_by(Account.category).all())
+    return totals
+
+
 def account_by_type_sums():
     totals = db.session.query(
         db.func.sum(Investment.price * Investment.shares), Account.category
@@ -26,6 +39,7 @@ def retirement_class_sums():
         db.func.sum(Investment.price * Investment.shares), Account.retirement
     ).join(Account.investments).group_by(Account.retirement).all()
     return [(total[0], 'Retirement' if total[1] == 1 else'Non-Retirement') for total in totals]
+
 
 def all_accounts_sum():
     total = db.session.query(

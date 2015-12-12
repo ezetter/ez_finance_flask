@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, request
 from webapp.models import db, Account, Investment
 from webapp.forms import AccountForm, InvestmentForm
 from webapp.lib.stock_util import update_account_prices, get_current_price
-from webapp.lib.queries import account_by_type_sums, all_accounts_sum, account_by_owner_sums, \
+from webapp.lib.queries import account_by_retirement_sub_type, all_accounts_sum, account_by_owner_sums, \
     format_sums, daily_historical_sum, retirement_class_sums
 import locale
 
@@ -21,7 +21,7 @@ def index():
     if request.args.get('current'):
         update_account_prices(accounts, db)
     return render_template("index.html", accounts=accounts, total=all_accounts_sum(),
-                           account_type_sums=format_sums(account_by_type_sums()),
+                           account_type_sums=account_by_retirement_sub_type(),
                            account_owner_sums=format_sums(account_by_owner_sums()),
                            retirement_class_sums=format_sums(retirement_class_sums())
                            )
