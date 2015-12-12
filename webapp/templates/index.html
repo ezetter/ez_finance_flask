@@ -6,12 +6,17 @@
 
 <div class="panel-group">
     <h4 class="panel-title"><b>Total Value All Accounts</b>: {{total}}
-    <button type="button" class="btn btnc btn-primary btn-ez" data-toggle="collapse"
-            data-target="#collapse_totals">Sub-Totals
-    </button>
+        <button type="button" class="btn btnc btn-primary btn-ez" data-toggle="collapse"
+                data-target="#collapse_totals">Sub-Totals
+        </button>
     </h4>
     <div id="collapse_totals" class="panel-collapse collapse in">
         <ul class="list-group">
+            {% for subtotal in retirement_class_sums %}
+            <li class="list-group-item">
+                <h5>{{subtotal[1]}}: {{subtotal[0]}} ({{subtotal[2]}}%)</h5>
+            </li>
+            {% endfor %}
             {% for subtotal in account_type_sums %}
             <li class="list-group-item">
                 <h5>Type: {{subtotal[1]}}: {{subtotal[0]}} ({{subtotal[2]}}%)</h5>
@@ -35,7 +40,8 @@
             {% for account in accounts %}
             <li class="list-group-item">
                 <h4 class="panel-title">
-                    {{account.owner}} {{account.name}} ({{account.category}}) {{account.value()}}
+                    {{account.owner}} {{account.name}} ({{account.retirement_text()}} - {{account.category}})
+                    {{account.value()}}
                     <a class="btn btn-primary btn-ez" href="{{ url_for('.edit', account_id=account.id) }}">Edit</a>
                     <button type="button" class="btn btnc btn-primary btn-ez collapsed" data-toggle="collapse"
                             data-target="#collapse{{account.id}}">Investments
@@ -50,7 +56,8 @@
                         </li>
                         <ul style="list-style-type:none">
                             {% for inv in account.investments %}
-                            <li>{{inv.symbol}} ({{inv.name}}) Shares: {{inv.shares}}, Price: {{inv.formatted_price()}}, Value:
+                            <li>{{inv.symbol}} ({{inv.name}}) Shares: {{inv.shares}}, Price: {{inv.formatted_price()}},
+                                Value:
                                 {{inv.value()}}
                                 <a href="{{ url_for('.edit_investment', investment_id=inv.id) }}">Edit</a>
                             </li>

@@ -21,6 +21,12 @@ def account_by_owner_sums():
     return totals
 
 
+def retirement_class_sums():
+    totals = db.session.query(
+        db.func.sum(Investment.price * Investment.shares), Account.retirement
+    ).join(Account.investments).group_by(Account.retirement).all()
+    return [(total[0], 'Retirement' if total[1] == 1 else'Non-Retirement') for total in totals]
+
 def all_accounts_sum():
     total = db.session.query(
         db.func.sum(Investment.price * Investment.shares)

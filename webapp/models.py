@@ -9,10 +9,17 @@ class Account(db.Model):
     __tablename__ = 'accounts'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
+    retirement = db.Column(db.Integer)
     category = db.Column(db.String(64))
     owner = db.Column(db.String(64))
     investments = db.relationship('Investment', backref='account')
     history = db.relationship('AccountHistory', backref='account')
+
+    def retirement_text(self):
+        if self.retirement:
+            return 'Retirement'
+        else:
+            return 'Non-Retirement'
 
     def value(self):
         val = sum(inv.shares * inv.price for inv in self.investments
