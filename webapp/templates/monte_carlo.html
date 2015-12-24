@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}History{% endblock %}
+{% block title %}Monte Carlo Simulation{% endblock %}
 
 {% block body %}
 <div class="row">
@@ -8,14 +8,14 @@
         <table class="table table-condensed">
             <thead>
             <tr>
-                <th>Date</th>
-                <th>Value</th>
+                <th>Percentile</th>
+                <th>Ending Value</th>
             </tr>
             </thead>
-            {% for day in history %}
+            {% for vals in stats['percentiles'] %}
             <tr>
-                <td>{{day[1]}}</td>
-                <td>{{day[0]}}</td>
+                <td>{{vals[0]}}%</td>
+                <td>{{vals[1]}}</td>
             </tr>
             {% endfor %}
         </table>

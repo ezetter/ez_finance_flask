@@ -45,7 +45,7 @@ def all_accounts_sum():
     total = db.session.query(
         db.func.sum(Investment.price * Investment.shares)
     ).join(Account.investments).all()[0][0]
-    return locale.currency(total, grouping=True)
+    return total
 
 
 def daily_historical_sum():

@@ -3,6 +3,7 @@ from flask import Flask
 from webapp.models import db
 from webapp.controllers.main import main_blueprint
 from webapp.controllers.charts import chart_blueprint
+from webapp.controllers.monte_carlo import monte_carlo_blueprint
 
 
 def create_app(object_name):
@@ -22,6 +23,7 @@ def create_app(object_name):
 
     app.register_blueprint(main_blueprint)
     app.register_blueprint(chart_blueprint)
+    app.register_blueprint(monte_carlo_blueprint)
 
     return app
 
