@@ -32,7 +32,6 @@ def edit(account_id):
     account = Account.query.get(account_id)
     form = AccountForm(obj=account)
     form.validate_on_submit()
-    print(form.retirement.errors)
     if form.validate_on_submit():
         account.name = form.name.data
         account.category = form.category.data

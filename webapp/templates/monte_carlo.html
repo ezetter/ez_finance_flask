@@ -3,8 +3,29 @@
 {% block title %}Monte Carlo Simulation{% endblock %}
 
 {% block body %}
+<form class="form-inline" method="POST" action="{{ url_for('.monte_carlo')}}">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        {{ form.rate.label }}: {{ form.rate(placeholder=rate) }}
+    </div>
+    <div class="form-group">
+        {{ form.sigma.label }}: {{ form.sigma(placeholder=sigma) }}
+    </div>
+    <div class="form-group">
+        {{ form.time.label }}: {{ form.time(placeholder=time) }}
+    </div>
+    <div class="form-group">
+        {{ form.start_val.label }}: {{ form.start_val(placeholder=start_value) }}
+    </div>
+
+    <button type="submit" class="btn btn-default btn-sm">Update</button>
+    <div><b>Constant Rate:</b> {{("{:.1f}".format(rate*100))}}%</div>
+</form>
 <div class="row">
     <div class="col-md-4">
+        <div><b>Constant Volatility:</b> {{sigma}}</div>
+        <div><b>Initial Value:</b> {{start_val_for}}</div>
+        <div><b>Mean final Value: </b> {{mean}}</div>
         <table class="table table-condensed">
             <thead>
             <tr>
@@ -20,5 +41,11 @@
             {% endfor %}
         </table>
     </div>
+    <div class="col-md-6">
+        <img src="/monte-carlo/paths.png"/>
+    </div>
+    <img src="/monte-carlo/histogram.png"/>
+
 </div>
+
 {% endblock %}

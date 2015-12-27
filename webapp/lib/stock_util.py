@@ -39,22 +39,22 @@ def get_stock_data(ticker, start, end):
     return web.DataReader(ticker, 'yahoo', start, end)
 
 
-def gen_monte_carlo_paths(S0, r=0.07, sigma=0.2, T=10, M=120, I=250000):
+def gen_monte_carlo_paths(s0, r=0.07, sigma=0.2, time=10, its=250000):
     ''' Generates Monte Carlo paths for geometric Brownian motion.
 
     Parameters
     ==========
-    S0 : float
+    s0 : float
         initial stock/index value
     r : float
         constant short rate
     sigma : float
         constant volatility
-    T : float
+    time : float
         final time horizon
     M : int
         number of time steps/intervals
-    I : int
+    its : int
         number of paths to be simulated
 
     Returns
@@ -62,11 +62,12 @@ def gen_monte_carlo_paths(S0, r=0.07, sigma=0.2, T=10, M=120, I=250000):
     paths : ndarray, shape (M + 1, I)
         simulated paths given the parameters
     '''
-    dt = float(T) / M
-    paths = np.zeros((M + 1, I), np.float64)
-    paths[0] = S0
-    for t in range(1, M + 1):
-        rand = np.random.standard_normal(I)
+    m = time * 12
+    dt = 1.0 / 12
+    paths = np.zeros((m + 1, its), np.float64)
+    paths[0] = s0
+    for t in range(1, m + 1):
+        rand = np.random.standard_normal(its)
         rand = (rand - rand.mean()) / rand.std()
         paths[t] = paths[t - 1] * np.exp((r - 0.5 * sigma ** 2) * dt +
                                          sigma * np.sqrt(dt) * rand)
@@ -81,6 +82,8 @@ def stats_from_paths(paths):
                              (25, locale.currency(np.percentile(final_prices, 25), grouping=True)),
                              (50, locale.currency(np.percentile(final_prices, 50), grouping=True)),
                              (75, locale.currency(np.percentile(final_prices, 75), grouping=True)),
-                             (90, locale.currency(np.percentile(final_prices, 90), grouping=True))),
+                             (90, locale.currency(np.percentile(final_prices, 90), grouping=True)),
+                             (95, locale.currency(np.percentile(final_prices, 95), grouping=True)),
+                             (99, locale.currency(np.percentile(final_prices, 99), grouping=True))),
              'stats': scs.describe(final_prices)}
     return stats

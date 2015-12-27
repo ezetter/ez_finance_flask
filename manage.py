@@ -6,6 +6,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 
 from webapp import create_app
 from webapp.models import db, Account, Investment, AccountHistory
+from webapp.session_helper import PickleSessionInterface
 
 # default to dev config
 env = os.environ.get('WEBAPP_ENV', 'dev')
@@ -28,6 +29,13 @@ def make_shell_context():
         Investment=Investment,
         AccountHistory=AccountHistory
     )
+
+path = 'tmp/app_session'
+if not os.path.exists(path):
+    os.mkdir(path)
+    os.chmod(path, int('700', 8))
+
+app.session_interface = PickleSessionInterface(path)
 
 if __name__ == "__main__":
     manager.run()

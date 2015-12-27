@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField, DecimalField, SelectField
+from wtforms import StringField, SubmitField, DecimalField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Optional
 
 
@@ -16,3 +16,10 @@ class InvestmentForm(Form):
     symbol = StringField('Symbol ')
     shares = DecimalField('Number of Shares', places=3)
     price = DecimalField('Price per Share', places=3, validators=[Optional()])
+
+
+class MonteCarloForm(Form):
+    rate = DecimalField('Rate', places=2)
+    sigma = DecimalField('Sigma', places=2)
+    time = IntegerField('Years')
+    start_val = DecimalField('Initial Value', places=2)
