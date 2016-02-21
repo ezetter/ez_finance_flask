@@ -20,7 +20,8 @@ def index():
     accounts = Account.query.all()
     if request.args.get('current'):
         update_account_prices(accounts, db)
-    return render_template("index.html", accounts=accounts, total=locale.currency(all_accounts_sum(), grouping=True),
+    accounts_total = locale.currency(all_accounts_sum(), grouping=True)
+    return render_template("index.html", accounts=accounts, total=accounts_total,
                            account_type_sums=account_by_retirement_sub_type(),
                            account_owner_sums=format_sums(account_by_owner_sums()),
                            retirement_class_sums=format_sums(retirement_class_sums())

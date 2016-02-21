@@ -28,5 +28,5 @@ def create_app(object_name):
     return app
 
 if __name__ == '__main__':
-    app = app = create_app('project.config.ProdConfig')
+    app = create_app('project.config.ProdConfig')
     app.run()

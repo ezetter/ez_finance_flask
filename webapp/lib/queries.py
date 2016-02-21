@@ -45,6 +45,9 @@ def all_accounts_sum():
     total = db.session.query(
         db.func.sum(Investment.price * Investment.shares)
     ).join(Account.investments).all()[0][0]
+
+    if not total:
+        total = 0
     return total
 
 
