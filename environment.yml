@@ -37,6 +37,7 @@ dependencies:
 - zlib=1.2.8=0
 - pip:
   - alembic==0.8.4
+  - blinker==1.4
   - flask-migrate==1.8.0
   - flask-script==2.0.5
   - flask-sqlalchemy==2.1
