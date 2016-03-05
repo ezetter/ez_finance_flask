@@ -20,9 +20,9 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('category', sa.String(length=64), nullable=True),
-    sa.PrimaryKeyConstraint('id', name='pk_accounts'),
-    sa.UniqueConstraint('name', 'owner', name='uk_accounts')
-    )
+    sa.Column('owner', sa.String(length=64), nullable=True),
+    sa.PrimaryKeyConstraint('id', name='pk_accounts'))
+
     op.create_table('investments',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),

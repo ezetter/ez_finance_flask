@@ -2,7 +2,7 @@ import os
 
 from flask.ext.script import Manager, Server
 from flask.ext.script.commands import ShowUrls
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate, MigrateCommand
 
 from webapp import create_app
 from webapp.models import db, Account, Investment, AccountHistory
@@ -32,7 +32,7 @@ def make_shell_context():
 
 path = 'tmp/app_session'
 if not os.path.exists(path):
-    os.mkdir(path)
+    os.makedirs(path, exist_ok=True)
     os.chmod(path, int('700', 8))
 
 app.session_interface = PickleSessionInterface(path)

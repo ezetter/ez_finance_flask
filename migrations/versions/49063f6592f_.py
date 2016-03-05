@@ -8,7 +8,7 @@ Create Date: 2015-11-29 18:30:43.352493
 
 # revision identifiers, used by Alembic.
 revision = '49063f6592f'
-down_revision = '28c5945d624'
+down_revision = '170ec599e68'
 
 from alembic import op
 import sqlalchemy as sa
@@ -21,6 +21,7 @@ def upgrade():
     sa.Column('value', sa.Float(), nullable=False),
     sa.Column('snapshot_date', sa.Date(), nullable=False),
     sa.Column('account_id', sa.Integer(), nullable=False),
+    sa.Column('owner', sa.String(length=64), nullable=True),
     sa.ForeignKeyConstraint(['account_id'], ['accounts.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
