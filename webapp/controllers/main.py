@@ -86,7 +86,7 @@ def edit_investment(investment_id):
     if form.validate_on_submit():
         investment.name = form.name.data
         investment.symbol = form.symbol.data
-        investment.shares = form.shares.data.replace(',', '').strip()
+        investment.shares = form.shares.data
         investment.price = form.price.data
         db.session.add(investment)
         db.session.commit()
