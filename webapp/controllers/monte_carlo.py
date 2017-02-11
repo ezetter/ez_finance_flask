@@ -35,7 +35,11 @@ def monte_carlo():
         start_value = float(form.start_val.data)
     else:
         start_value = all_accounts_sum()
-    paths = gen_monte_carlo_paths(start_value, r=rate, sigma=sigma, time=time)
+    if form.annual_contrib.data is not None:
+        annual_contrib = float(form.annual_contrib.data)
+    else:
+        annual_contrib = 0
+    paths = gen_monte_carlo_paths(start_value, r=rate, sigma=sigma, time=time, annual_contrib=annual_contrib)
     session['paths'] = paths[:, :20]
     session['final_prices'] = paths[-1]
     stats = stats_from_paths(paths)
@@ -49,6 +53,7 @@ def monte_carlo():
                            sigma=sigma,
                            time=time,
                            mean=mean,
+                           annual_contrib=annual_contrib,
                            form=form)
 
 

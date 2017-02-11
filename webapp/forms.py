@@ -23,3 +23,4 @@ class MonteCarloForm(Form):
     sigma = DecimalField('Sigma', places=2)
     time = IntegerField('Years')
     start_val = DecimalField('Initial Value', places=2)
+    annual_contrib = DecimalField('Annual Contribution', places=2)

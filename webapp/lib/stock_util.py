@@ -39,7 +39,7 @@ def get_stock_data(ticker, start, end):
     return web.DataReader(ticker, 'yahoo', start, end)
 
 
-def gen_monte_carlo_paths(s0, r=0.07, sigma=0.2, time=10, its=250000):
+def gen_monte_carlo_paths(s0, r=0.07, sigma=0.2, time=10, its=250000, annual_contrib=0):
     ''' Generates Monte Carlo paths for geometric Brownian motion.
 
     Parameters
@@ -62,15 +62,17 @@ def gen_monte_carlo_paths(s0, r=0.07, sigma=0.2, time=10, its=250000):
     paths : ndarray, shape (M + 1, I)
         simulated paths given the parameters
     '''
-    m = time * 12
-    dt = 1.0 / 12
+    interval = 12
+    m = time * interval
+    dt = 1.0 / interval
     paths = np.zeros((m + 1, its), np.float64)
     paths[0] = s0
     for t in range(1, m + 1):
         rand = np.random.standard_normal(its)
         rand = (rand - rand.mean()) / rand.std()
         paths[t] = paths[t - 1] * np.exp((r - 0.5 * sigma ** 2) * dt +
-                                         sigma * np.sqrt(dt) * rand)
+                                         sigma * np.sqrt(dt) * rand) + annual_contrib / interval
+
     return paths
 
 

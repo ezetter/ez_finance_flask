@@ -6,16 +6,20 @@
 <form class="form-inline" method="POST" action="{{ url_for('.monte_carlo')}}">
     {{ form.csrf_token }}
     <div class="form-group">
-        {{ form.rate.label }}: {{ form.rate(placeholder=rate) }}
+        {{ form.rate.label }}: {{ form.rate(placeholder=rate, size=5) }}
     </div>
     <div class="form-group">
-        {{ form.sigma.label }}: {{ form.sigma(placeholder=sigma) }}
+        {{ form.sigma.label }}: {{ form.sigma(placeholder=sigma, size=5) }}
     </div>
     <div class="form-group">
-        {{ form.time.label }}: {{ form.time(placeholder=time) }}
+        {{ form.time.label }}: {{ form.time(placeholder=time, size=4) }}
     </div>
     <div class="form-group">
-        {{ form.start_val.label }}: {{ form.start_val(placeholder=start_value) }}
+        {{ form.start_val.label }}: {{ form.start_val(placeholder=start_value, size=12) }}
+    </div>
+    <div class="form-group">
+        {{ form.annual_contrib.label }}:
+        {{ form.annual_contrib(placeholder=annual_contrib, size=10) }}
     </div>
 
     <button type="submit" class="btn btn-default btn-sm">Update</button>

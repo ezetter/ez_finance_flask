@@ -12,6 +12,12 @@ Clone this repo. I used conda for dependency management. As such dependencies ar
     conda env create -f environment.yml
 ```
 
+Then switch to the environment:
+
+```
+    source activate ez-finance
+```
+
 Then you can run the app from within that environment. If you use another environment manager (e.g. virtualenv), or none at all, you're on your own. environment.yml should be help.
 
 ### Database Setup
