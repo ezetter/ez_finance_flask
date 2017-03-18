@@ -28,7 +28,7 @@ def monte_carlo():
     else:
         sigma = 0.15
     if form.time.data is not None:
-        time = int(form.time.data)
+        time = float(form.time.data)
     else:
         time = 10
     if form.start_val.data is not None:

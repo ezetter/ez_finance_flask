@@ -63,7 +63,7 @@ def gen_monte_carlo_paths(s0, r=0.07, sigma=0.2, time=10, its=250000, annual_con
         simulated paths given the parameters
     '''
     interval = 12
-    m = time * interval
+    m = int(time * interval)
     dt = 1.0 / interval
     paths = np.zeros((m + 1, its), np.float64)
     paths[0] = s0
