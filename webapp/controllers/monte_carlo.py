@@ -8,6 +8,7 @@ from flask import make_response
 import io
 import numpy as np
 import locale
+from matplotlib.ticker import FuncFormatter
 
 monte_carlo_blueprint = Blueprint(
     'monte_carlo',
@@ -60,7 +61,7 @@ def monte_carlo():
 @monte_carlo_blueprint.route("/monte-carlo/paths.png")
 def path_chart():
     plt.close()
-    plt.figure(figsize=(8,5))
+    plt.figure(figsize=(12,6))
     paths = session.pop('paths')
     plt.plot(paths[:, :20])
     plt.grid(True)
@@ -77,14 +78,23 @@ def path_chart():
 
 @monte_carlo_blueprint.route("/monte-carlo/histogram.png")
 def histogram():
+
     plt.close()
     plt.figure(figsize=(12,6))
     final_prices = session.pop('final_prices')
-    plt.hist(final_prices, bins=200)
+
+    plt.hist(final_prices, bins=100)
     plt.title("Histogram")
     plt.ylabel('frequency')
     plt.xlabel('Final Value')
     plt.xlim(0, np.percentile(final_prices, 99.5))
+
+    formatter = FuncFormatter(lambda y, p: str(100 * y / len(final_prices)) + '%')
+    plt.gca().yaxis.set_major_formatter(formatter)
+
+    formatter = FuncFormatter(lambda x, p: locale.format('%d',x, True))
+    plt.gca().xaxis.set_major_formatter(formatter)
+
     canvas = FigureCanvas(plt.gcf())
     png_output = io.BytesIO()
     canvas.print_png(png_output)
