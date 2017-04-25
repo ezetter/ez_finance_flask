@@ -89,3 +89,14 @@ def stats_from_paths(paths):
                              (99, locale.currency(np.percentile(final_prices, 99), grouping=True))),
              'stats': scs.describe(final_prices)}
     return stats
+
+
+def compound(s0, r=0.07, t=10, annual_contrib=0):
+    vals = [s0]
+    interval = 12
+    m = int(t * interval)
+    v = s0
+    for t in range(1, m + 1):
+        v += v * (r / interval) + (annual_contrib / interval)
+        vals.append(v)
+    return vals

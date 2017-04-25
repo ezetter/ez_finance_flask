@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session
-from webapp.lib.stock_util import gen_monte_carlo_paths, stats_from_paths
+from webapp.lib.stock_util import gen_monte_carlo_paths, stats_from_paths, compound
 from webapp.lib.queries import all_accounts_sum
 from webapp.forms import MonteCarloForm
 import matplotlib.pyplot as plt
@@ -43,6 +43,10 @@ def monte_carlo():
     paths = gen_monte_carlo_paths(start_value, r=rate, sigma=sigma, time=time, annual_contrib=annual_contrib)
     session['paths'] = paths[:, :20]
     session['final_prices'] = paths[-1]
+    session['rate'] = rate
+    session['time'] = time
+    session['start_value'] = start_value
+    session['annual_contrib'] = annual_contrib
     stats = stats_from_paths(paths)
     mean = locale.currency(paths[-1].mean(), grouping=True)
     return render_template("monte_carlo.html",
@@ -64,6 +68,8 @@ def path_chart():
     plt.figure(figsize=(12,6))
     paths = session.pop('paths')
     plt.plot(paths[:, :20])
+    compounded = compound(session.pop('start_value'), session.pop('rate'), session.pop('time'), session.pop('annual_contrib'))
+    plt.plot(compounded, linewidth=5, color='black', alpha=.5)
     plt.grid(True)
     plt.xlabel('months')
     plt.ylabel('value')
