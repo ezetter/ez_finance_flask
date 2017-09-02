@@ -1,4 +1,4 @@
-import pandas.io.data as web
+import pandas_datareader.data as web
 import numpy as np
 from webapp.models import AccountHistory
 from datetime import date, timedelta
@@ -32,11 +32,11 @@ def update_account_prices(accounts, db):
 def get_current_price(ticker):
     end = date.today()
     start = end - timedelta(days=7)
-    return round(get_stock_data(ticker, start, end).ix[-1]['Close'], 3)
+    return round(get_stock_data(ticker, start, end)['last'][0], 3)
 
 
 def get_stock_data(ticker, start, end):
-    return web.DataReader(ticker, 'yahoo', start, end)
+    return web.get_quote_yahoo(ticker)
 
 
 def gen_monte_carlo_paths(s0, r=0.07, sigma=0.2, time=10, its=250000, annual_contrib=0):
